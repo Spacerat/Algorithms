@@ -1,5 +1,3 @@
-import math
-
 
 class HashMap(object):
 
@@ -90,7 +88,7 @@ class HashMap(object):
         else:
             try:
                 return (v for k, v in chain if k == key).next()
-            except StopIteration as e:
+            except StopIteration:
                 raise KeyError("'{}' not present".format(key))
 
     @property
