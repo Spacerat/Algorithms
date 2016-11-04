@@ -9,7 +9,7 @@ class BinHeap(object):
 		""" Set up a heap
 		items: list of initial items, as (key/value) tuples 
 		maxheap: bool, sort direction"""
-
+		self.push = self.insert
 		# A heap can be modeled as an array
 		self.array = []
 		if items == None:
