@@ -1,7 +1,8 @@
+from __future__ import print_function
 import math
 
 
-class HashMap(object):
+class HashMap:
 
     """ Similar to Python's 'dictionary', a hash map maps keys to objects.
     This is done by calculating a hash value from the object itself, and
@@ -22,7 +23,7 @@ class HashMap(object):
         self.count = 0
 
         # Initialise a list of lists
-        for i in xrange(N):
+        for i in range(N):
             self.table.append([])
 
     def hasher(self, obj):
@@ -49,7 +50,7 @@ class HashMap(object):
         self.size = newsize
 
         # Initialise a new, larger table
-        for i in xrange(newsize):
+        for i in range(newsize):
             self.table.append([])
 
         # Re-insert all key/value pairs from the old table
@@ -58,7 +59,7 @@ class HashMap(object):
                 self.insert(k, v)
 
     def insert(self, key, value):
-        """ Insert an object 'value' indexed by key 'key', or replace  an
+        """ Insert an object 'value' indexed by key 'key', or replace an
         existing object if the key is already in use """
         """ If the hash map's load exceeds 2/3 after this operation, the map
         is resized to double its capacity """
@@ -136,6 +137,9 @@ class HashMap(object):
         """ Iterator over all stored keys """
         return (k for k, v in self.iter_pairs())
 
+    def keys(self):
+        return list(iter(self))
+
     def iter_items(self):
         """ Iterator over all values """
         return (v for k, v in self.iter_pairs())
@@ -162,13 +166,13 @@ class HashMap(object):
 if __name__ == '__main__':
     m = HashMap()
 
-    for x in xrange(100):
+    for x in range(100):
         m[x] = x * x
 
-    print m
+    print(m)
 
     for k in m.keys()[:]:
         del m[k]
 
-    print m.table
-    print m.load
+    print(m.table)
+    print(m.load)

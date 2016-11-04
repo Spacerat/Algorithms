@@ -1,4 +1,4 @@
-
+from __future__ import print_function
 
 class LinkedList(object):
 	def __init__(self):
@@ -68,4 +68,4 @@ n3 = l.append("!")
 l.delete(n1)
 l.delete(n3)
 
-print l
+print(l)
