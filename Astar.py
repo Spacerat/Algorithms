@@ -1,4 +1,5 @@
 
+from __future__ import print_function
 from collections import namedtuple
 from heap import BinHeap
 
@@ -68,7 +69,7 @@ def Astar(graph, start, goal, priority_with_cost=True, priority_with_heuristc=Tr
         parent[next] = current
         num_visits +=1
 
-  print num_visits, "vists"
+  print(num_visits, "vists")
 
   return reversed(list(pathify(parent, goal)))
 
@@ -99,7 +100,7 @@ def main():
       if Point(row, col) in path:
         newgrid[row][col] = "**"
 
-    print r
+    print(r)
 
 if __name__ == '__main__':
   main()
