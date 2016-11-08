@@ -15,7 +15,6 @@ class LinkedList(object):
 	@property
 	def tail(self):
 	    return self.last
-	
 
 	def append(self, value):
 		n = Node(self.last, value)

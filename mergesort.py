@@ -25,7 +25,6 @@ def mergesort(l):
 
 	Since mergesort divides the list in half each iteration, it multiplies the complexity
 	of 'merge' by LogN, thus its complexity is O(N LogN)
-
 	"""
 
 	# A list with length 1 is already sorted.

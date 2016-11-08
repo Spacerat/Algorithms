@@ -21,7 +21,6 @@ def partition(l, start, end):
     # and values[:j] will be lower than the pivot. 
     return i, j
 
-    
 def quicksort_part(l, start, end):
     if start >= end: return
     i, j = partition(l, start, end)
