@@ -1,8 +1,9 @@
 import math
-
+from itertools import islice
 
 def merge(lista, listb):
-	""" Merge two sorted lists into one sorted list. """
+	""" Merge two sorted lists into one sorted list.
+	This operation has time a complexity of O(N), since it processes each list item once."""
 	out = []
 	i_a = 0
 	i_b = 0
@@ -20,7 +21,12 @@ def merge(lista, listb):
 
 def mergesort(l):
 	""" Recursively split a list into smaller lists until each list has size=1
-	Then 'merge' adjacent lists, thereby sorting them until the full list is sorted."""
+	Then 'merge' adjacent lists, thereby sorting them until the full list is sorted.
+
+	Since mergesort divides the list in half each iteration, it multiplies the complexity
+	of 'merge' by LogN, thus its complexity is O(N LogN)
+
+	"""
 
 	# A list with length 1 is already sorted.
 	if len(l) == 1:
@@ -28,6 +34,9 @@ def mergesort(l):
 
 	# Split the list in half
 	halfway = math.floor(len(l)/2)
+
+	# Slicing the list is also O(N). It's not exactly ideal from a performance
+	# perspective but it doesn't increase the big O time complexity.
 	left = l[:halfway]
 	right = l[halfway:]
 
@@ -39,4 +48,9 @@ def mergesort(l):
 	return merge(left, right)
 
 
-print(mergesort([6, 5, 3, 1, 8, 7, 2, 4, 12, -1, 15]))
+def main():
+	print(mergesort([6, 5, 3, 1, 8, 7, 2, 4, 12, -1, 15]))
+
+if __name__ == '__main__':
+	main()
+

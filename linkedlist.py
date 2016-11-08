@@ -59,13 +59,17 @@ class Node(object):
 	def __str__(self):
 		return "Node({})".format(str(self.value))
 
-l = LinkedList()
+def main():
+	l = LinkedList()
 
-n1 = l.append("hello")
-n2 = l.append("world")
-n3 = l.append("!")
+	n1 = l.append("hello")
+	n2 = l.append("world")
+	n3 = l.append("!")
 
-l.delete(n1)
-l.delete(n3)
+	l.delete(n1)
+	l.delete(n3)
 
-print(l)
+	print(l)
+
+if __name__ == '__main__':
+	main()

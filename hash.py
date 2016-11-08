@@ -163,7 +163,7 @@ class HashMap:
         self.remove(key)
 
 
-if __name__ == '__main__':
+def main():
     m = HashMap()
 
     for x in range(100):
@@ -176,3 +176,6 @@ if __name__ == '__main__':
 
     print(m.table)
     print(m.load)
+
+if __name__ == '__main__':
+    main()
