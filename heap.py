@@ -22,8 +22,6 @@ class BinHeap(object):
 		# Insert all initial items
 		for item in items:
 			self.insert(*item)
-			print([k for k, v in self.array])
-
 
 	def insert(self, key, val):
 		""" Insert an value with a key """
