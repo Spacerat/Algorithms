@@ -2,55 +2,8 @@
 from __future__ import print_function
 from collections import namedtuple
 from heap import BinHeap
+from graph import Grid, Point, pathify
 
-
-class BaseGraph():
-  """ A base definition of a graph which provides enough functionality to demonstrate A* """
-
-  def neighbors(self, node):
-    """ The most important feature a graph is the ability to get the neigbours of a node. """
-    return []
-
-  def cost(self, node1, node2):
-    """ Get the traversal cost between two nodes"""
-    return 1
-
-  def heuristic(self, node1, node2):
-    """ If possible, calculate a quick approximation/heuristic for total travel cost between two nodes. """
-    return 1
-
-Point = namedtuple('Point', ['row','col'])
-
-class Grid(BaseGraph):
-  """ A grid is one possible representation of a graph, where vertices are cartesian coordinates
-  and each vertex has an edge to each neighbour."""
-  def __init__(self, gridmap):
-    self.grid = gridmap
-
-  def neighbors(self, point):
-    """ Return vertices one step away in each cardinal direction, ignoring points outside of the grid. """
-    compass = ((point.row-1, point.col),
-              (point.row+1, point.col),
-              (point.row, point.col-1),
-              (point.row, point.col+1))
-
-    for nrowi, ncoli in compass:
-      if nrowi < 0 or nrowi >= len(self.grid):
-        continue
-      if ncoli < 0 or ncoli >= len(self.grid[nrowi]):
-        continue
-      val = self.grid[nrowi][ncoli]
-      if val >=0:
-        yield Point(nrowi, ncoli)
-
-  def cost(self, node1, node2):
-    # Assume the nodes are adjacent. The movement cost is the value of the node being travelled to.
-    # This results in directed cost, but that is OK.
-    return 0 if node1 == node2 else self.grid[node2.row][node2.col]
-
-  def heuristic(self, node1, node2):
-    return abs(node2.row - node1.row) + abs(node2.col - node1.col)
-        
 def Astar(graph, start, goal, priority_with_cost=True, priority_with_heuristc=True):
   visited = {}
   parents = {}
@@ -99,17 +52,7 @@ def Astar(graph, start, goal, priority_with_cost=True, priority_with_heuristc=Tr
 
   # By the end, the 'goal' vertex should point to a parent vertex which points to a parent,
   # and so on, going back to the start vertex. Following this chain gives us the algorithm's solution.
-  return reversed(list(pathify(parents, goal)))
-
-
-def pathify(parents, goal):
-  # Traverse through a chain of parents from a goal value until there is no parent.
-  current = goal
-  while current:
-    yield current
-    current = parents[current]
-
-
+  return list(reversed(list(pathify(parents, goal))))
 
 def main():
   # Try out the algorithm on a simple maze.
@@ -122,15 +65,8 @@ def main():
   g = Grid(themap)
 
 
-  path = list(Astar(g, Point(0, 0), Point(0, 6)))
-  newgrid = [['{:2}'.format(v) for v in l] for l in themap]
-  
-  for row, r in enumerate(newgrid):
-    for col, c in enumerate(r):
-      if Point(row, col) in path:
-        newgrid[row][col] = "**"
-
-    print(r)
+  path = Astar(g, Point(0, 0), Point(0, 6))
+  g.printWithPath(path)
 
 if __name__ == '__main__':
   main()
