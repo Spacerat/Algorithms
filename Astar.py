@@ -2,7 +2,7 @@
 from __future__ import print_function
 from collections import namedtuple
 from heap import BinHeap
-from graph import Grid, Point
+from graph import Grid, Point, pathify
 
 def Astar(graph, start, goal, priority_with_cost=True, priority_with_heuristc=True):
   visited = {}
@@ -52,17 +52,7 @@ def Astar(graph, start, goal, priority_with_cost=True, priority_with_heuristc=Tr
 
   # By the end, the 'goal' vertex should point to a parent vertex which points to a parent,
   # and so on, going back to the start vertex. Following this chain gives us the algorithm's solution.
-  return reversed(list(pathify(parents, goal)))
-
-
-def pathify(parents, goal):
-  # Traverse through a chain of parents from a goal value until there is no parent.
-  current = goal
-  while current:
-    yield current
-    current = parents[current]
-
-
+  return list(reversed(list(pathify(parents, goal))))
 
 def main():
   # Try out the algorithm on a simple maze.
@@ -75,15 +65,8 @@ def main():
   g = Grid(themap)
 
 
-  path = list(Astar(g, Point(0, 0), Point(0, 6)))
-  newgrid = [['{:2}'.format(v) for v in l] for l in themap]
-  
-  for row, r in enumerate(newgrid):
-    for col, c in enumerate(r):
-      if Point(row, col) in path:
-        newgrid[row][col] = "**"
-
-    print(r)
+  path = Astar(g, Point(0, 0), Point(0, 6))
+  g.printWithPath(path)
 
 if __name__ == '__main__':
   main()

@@ -17,8 +17,8 @@ class BaseGraph():
     return 1
 
   def value(self, node):
-  	""" Get a node's value data """
-  	return None
+    """ Get a node's value data """
+    return None
 
 Point = namedtuple('Point', ['row','col'])
 
@@ -29,7 +29,7 @@ class Grid(BaseGraph):
     self.grid = gridmap
 
   def value(self, point):
-  	return self.grid[point.row][point.col]
+    return self.grid[point.row][point.col]
 
   def neighbors(self, point):
     """ Return vertices one step away in each cardinal direction, ignoring points outside of the grid. """
@@ -54,3 +54,20 @@ class Grid(BaseGraph):
 
   def heuristic(self, node1, node2):
     return abs(node2.row - node1.row) + abs(node2.col - node1.col)
+
+  def printWithPath(self, path):
+      newgrid = [['{:2}'.format(v) for v in l] for l in self.grid]
+      
+      for row, r in enumerate(newgrid):
+        for col, c in enumerate(r):
+          if Point(row, col) in path:
+            newgrid[row][col] = "**"
+
+        print(r)
+
+def pathify(parents, goal):
+  # Traverse through a chain of parents from a goal value until there is no parent.
+  current = goal
+  while current:
+    yield current
+    current = parents[current]
