@@ -2,7 +2,8 @@ from __future__ import print_function
 from operator import ge, le
 from math import floor
 import random
-
+from copy import copy
+import math
 class BinHeap(object):
 
 	def __init__(self, items = None, maxheap=True):
@@ -12,16 +13,19 @@ class BinHeap(object):
 		self.push = self.insert
 		# A heap can be modeled as an array
 		self.array = []
-		if items == None:
-			items = []
 		if maxheap:
 			self.op = ge
 		else:
 			self.op = le
 
-		# Insert all initial items
-		for item in items:
-			self.insert(*item)
+	
+		self.array = copy(list(items)) if items else []
+		# The heap begins as a tree in arbitrary order. We turn it into a heap by
+		# working from the second-to-last level upwards and moving items down the heap.
+		# This algorithm builds the heap in O(N) time.
+		for i in range(floor(len(self.array)/2), -1, -1):
+			self.down_heap(i)
+
 
 	def insert(self, key, val):
 		""" Insert an value with a key """
@@ -109,7 +113,31 @@ class BinHeap(object):
 		return self.array[0]
 
 	def __str__(self):
-		return str(self.array)
+		""" Return a text-based representation of the heap. Kinda dogy for N>32. """
+		out = [[]]
+		level = 1
+		i = 0
+		levels = math.ceil(math.log(len(self), 2))
+		maxlevelsize = (2**(levels-1))
+		maxwidth = maxlevelsize * 6 - 3
+		while i < len(self.array):
+			out[-1].append(str(self.array[i][0]).zfill(3))
+			i+=1
+			if i == level:
+				level = level * 2
+				level += 1
+				out.append([])
+		for level, r in enumerate(out):
+			num_items = 2**level
+			item_space = 3 * num_items
+			remaining_space = maxwidth - item_space
+			spacing_size = int(floor(remaining_space / (num_items + 1)))
+			leftover = remaining_space % (num_items + 1)
+			leftpad = " " * int(math.floor(leftover/2))
+			rightpad = " " * int(math.ceil(leftover/2))
+			single_space = " " * spacing_size
+			out[level] = leftpad + single_space + single_space.join(r) + single_space + rightpad
+		return "\n".join(out)
 
 	def __repr__(self):
 		return repr(self.array)
@@ -130,11 +158,13 @@ def main():
 	hp = BinHeap(maxheap = False)
 	hp.insert_many([(x, str(x)) for x in (random.randint(0, 10) for x in range(5))])
 	hp.insert_many([(x, str(x)) for x in (random.randint(11, 20) for x in range(5))])
+	print(hp)
+	print()
 	for x in (random.randint(21, 30) for x in range(5)):
 		hp.insert(x,str(x))
 
 	print([hp.pop()[1] for x in range(len(hp))])
-	print(heapsort(["abc", "qrt", "aaa", "z", "aaaaa", "ljn"]))
+	print(heapsort(["abc", "qrt", "aaa", "z", "aaaaa", "ljn", "joodles"]))
 
 	hp = BinHeap()
 	print(hp.is_empty())
